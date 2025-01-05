@@ -7,18 +7,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/dayjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/plugin/weekOfYear.js"></script>
     <style>
+        /* Default light theme */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #37352f;
+        }
+
+        /* Dark theme */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #191919;
+                --text-color: #e6e6e6;
+            }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             margin: 0;
             padding: 16px;
-            color: #37352f;
+            color: var(--text-color);
+            background-color: var(--bg-color);
             line-height: 1.5;
+            transition: color 0.3s, background-color 0.3s;
         }
+
         .date-info {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
+
         .date-line {
             font-size: 16px;
             padding: 4px 0;
