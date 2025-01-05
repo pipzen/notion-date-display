@@ -36,35 +36,35 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start; /* Align to the left */
-            gap: 8px; /* Reduce gap for compact layout */
+            gap: 4px; /* Reduce gap for compact layout */
             padding: 0; /* Remove padding */
             margin: 0; /* Remove margin */
         }
 
         .flip-container {
             display: flex;
-            gap: 8px;
+            gap: 4px; /* Reduce gap for compact layout */
         }
 
         .flip-card {
             background: var(--card-bg);
             border-radius: var(--card-radius);
-            width: 60px; /* Slightly smaller for compact layout */
-            height: 90px; /* Slightly smaller for compact layout */
+            width: 50px; /* Smaller for compact layout */
+            height: 70px; /* Smaller for compact layout */
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--card-text);
-            font-size: 48px; /* Slightly smaller font */
+            font-size: 36px; /* Smaller font */
             font-weight: bold;
             box-shadow: var(--card-shadow);
         }
 
         .month-card {
-            width: 80px; /* Slightly smaller for compact layout */
-            height: 90px; /* Slightly smaller for compact layout */
-            font-size: 24px; /* Slightly smaller font */
+            width: 60px; /* Smaller for compact layout */
+            height: 70px; /* Smaller for compact layout */
+            font-size: 18px; /* Smaller font */
             text-transform: uppercase;
         }
 
@@ -80,17 +80,17 @@
 
         .day-label {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
+            bottom: 4px; /* Smaller offset */
+            right: 4px; /* Smaller offset */
             color: var(--card-text);
-            font-size: 10px; /* Slightly smaller font */
+            font-size: 8px; /* Smaller font */
             text-transform: uppercase;
             font-weight: bold;
         }
 
         .date-container {
             display: flex;
-            gap: 8px;
+            gap: 4px; /* Reduce gap for compact layout */
         }
     </style>
 </head>
