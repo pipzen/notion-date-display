@@ -7,11 +7,26 @@
     <style>
         /* Theme variables */
         :root {
-            --card-bg: #1e1e1e;
-            --card-text: #ffffff;
-            --body-bg: #121212;
+            /* Light theme defaults */
+            --card-bg: #f5f5f5;
+            --card-text: #1e1e1e;
+            --body-bg: #ffffff;
             --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --card-radius: 12px;
+            --divider-color: rgba(128, 128, 128, 0.2);
+            --label-text: #666666;
+        }
+
+        /* Dark theme */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --card-bg: #1e1e1e;
+                --card-text: #ffffff;
+                --body-bg: #121212;
+                --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+                --divider-color: rgba(255, 255, 255, 0.2);
+                --label-text: #cccccc;
+            }
         }
 
         body {
@@ -50,6 +65,8 @@
             font-size: 48px;
             font-weight: bold;
             box-shadow: var(--card-shadow);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Added smooth transition for theme changes */
         }
 
         .month-card {
@@ -66,22 +83,45 @@
             right: 0;
             top: 50%;
             height: 2px;
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--divider-color);
+            transition: background-color 0.3s ease;
         }
 
         .day-label {
             position: absolute;
             bottom: 4px;
             right: 4px;
-            color: var(--card-text);
+            color: var(--label-text);
             font-size: 10px;
             text-transform: uppercase;
             font-weight: bold;
+            transition: color 0.3s ease;
         }
 
         .date-container {
             display: flex;
             gap: 8px;
+        }
+
+        /* Animation for flip effect */
+        @keyframes flipTop {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(-90deg); }
+        }
+
+        @keyframes flipBottom {
+            0% { transform: rotateX(90deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        .flip-card.flip-top {
+            animation: flipTop 0.3s ease-out;
+            transform-origin: bottom;
+        }
+
+        .flip-card.flip-bottom {
+            animation: flipBottom 0.3s ease-out;
+            transform-origin: top;
         }
     </style>
 </head>
@@ -99,7 +139,6 @@
             </div>
         </div>
     </div>
-
     <script>
         function updateDateTime() {
             const now = new Date();
@@ -110,18 +149,46 @@
             
             // Update date
             const date = now.getDate().toString().padStart(2, '0');
-            const dayName = now.toLocaleString('en-US', { weekday: 'long' }).toUpperCase();
+            const dayName = now.toLocaleString('en-US', { weekday: 'short' }).toUpperCase();
             
-            document.getElementById('dateFirst').textContent = date[0];
-            document.getElementById('dateSecond').textContent = date[1];
+            // Update with flip animation
+            updateDigitWithAnimation('dateFirst', date[0]);
+            updateDigitWithAnimation('dateSecond', date[1]);
             document.getElementById('dayName').textContent = dayName;
+        }
+
+        function updateDigitWithAnimation(elementId, newValue) {
+            const element = document.getElementById(elementId);
+            const currentValue = element.textContent;
+            
+            if (currentValue !== newValue) {
+                element.classList.add('flip-top');
+                
+                setTimeout(() => {
+                    element.textContent = newValue;
+                    element.classList.remove('flip-top');
+                    element.classList.add('flip-bottom');
+                    
+                    setTimeout(() => {
+                        element.classList.remove('flip-bottom');
+                    }, 300);
+                }, 300);
+            }
         }
 
         // Update immediately when loaded
         updateDateTime();
         
-        // Update every second (to keep the date accurate)
+        // Update every second
         setInterval(updateDateTime, 1000);
+
+        // Listen for system theme changes
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+                // Theme has changed - no need to do anything as CSS handles it
+                console.log('Theme changed to', e.matches ? 'dark' : 'light');
+            });
+        }
     </script>
 </body>
 </html>
